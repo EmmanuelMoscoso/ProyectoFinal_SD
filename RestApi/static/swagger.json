@@ -1,0 +1,300 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "El API permite gestionar y consultar un catálogo de perros disponibles para adopción. Facilita el acceso a información detallada de cada perro, como su nombre, raza, edad, tamaño y características especiales. Además, ofrece funcionalidades para registrar nuevos perros, actualizar su información y eliminar registros cuando un perro ha sido adoptado.",
+    "version": "1.0.0",
+    "title": "Huellitas en busca de un hogar"
+  },
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/dogs": {
+      "get": {
+        "summary": "Catálogo completo de perros en adopción",
+        "responses": {
+          "200": {
+            "description": "A list of dogs"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Ingresar datos de nuevo perro",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "dog",
+            "description": "Dog object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "gender": { "type": "string" },
+                "size": { "type": "string" },
+                "weight": { "type": "number" },
+                "birth_date": { "type": "string", "format": "date" },
+                "adopted": { "type": "boolean", "default": false }
+              },
+              "required": ["name", "gender", "size", "weight", "birth_date"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Dog created successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/dogs/{id}": {
+      "get": {
+        "summary": "Buscar perro por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single dog"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualizar información de un perro por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "dog",
+            "description": "Updated dog object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "gender": { "type": "string" },
+                "size": { "type": "string" },
+                "weight": { "type": "number" },
+                "birth_date": { "type": "string", "format": "date" },
+                "adopted": { "type": "boolean", "default": false }
+              },
+              "required": ["name", "gender", "size", "weight", "birth_date"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dog updated successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Actualizar campos de información de un perro por ID",
+        "description": "Allows updating specific fields of a dog's record.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the dog to update"
+          },
+          {
+            "in": "body",
+            "name": "dog",
+            "description": "Fields to update for the dog",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "gender": { "type": "string" },
+                "size": { "type": "string" },
+                "weight": { "type": "number" },
+                "birth_date": { "type": "string", "format": "date" },
+                "adopted": { "type": "boolean" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dog updated successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Borrar un perro con ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dog deleted successfully"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/dogs/search": {
+      "get": {
+        "summary": "Buscar un perro por nombre, género, tamaño o fecha de nacimiento",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Filter by dog's name"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Filter by dog's gender"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Filter by dog's size"
+          },
+          {
+            "name": "birth_date",
+            "in": "query",
+            "type": "string",
+            "format": "date",
+            "required": false,
+            "description": "Filter by dog's birth date"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Page number for pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Number of results per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of dogs matching the criteria, with pagination",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string" },
+                "total": { "type": "integer" },
+                "page": { "type": "integer" },
+                "limit": { "type": "integer" },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "gender": { "type": "string" },
+                      "size": { "type": "string" },
+                      "birth_date": { "type": "string", "format": "date" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No dogs found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/dogs/{id}/adopted": {
+      "patch": {
+        "summary": "¡Marcar perro como adoptado!",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dog marked as adopted successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Dog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}
