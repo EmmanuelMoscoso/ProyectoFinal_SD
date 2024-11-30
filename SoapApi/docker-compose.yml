@@ -1,0 +1,38 @@
+services:
+  api-soap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=soap_api
+      - DB_USER=postgres
+      - DB_PASSWORD=yourpassword
+    networks:
+      - my_network
+
+  db:
+    image: postgres:15
+    container_name: postgres-soap
+    environment:
+      POSTGRES_DB: soap_api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+volumes:
+  postgres_data:
+
+networks:
+  my_network:
+    driver: bridge
