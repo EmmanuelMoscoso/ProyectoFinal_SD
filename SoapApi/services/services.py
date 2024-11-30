@@ -1,56 +1,48 @@
 import json
 from infrastructure.postgres import get_connection
 
-def create_dog_service(name, gender, size, weight, birth_date, adopted):
-    """Handles the creation of a dog resource."""
+def create_user_service(name, age, email, phone):
+    """Handles the creation of a user resource."""
     try:
         # Validate required fields
-        required_fields = [name, gender, size, weight, birth_date]
+        required_fields = [name, age, email, phone]
         if not all(required_fields):
             return "Error: All required fields must be present."
-
-        # Convert weight to float
-        try:
-            weight = float(weight)
-        except ValueError:
-            return "Error: Weight must be a number."
 
         # Prepare data
         json_data = {
             "name": name,
-            "gender": gender,
-            "size": size,
-            "weight": weight,
-            "birth_date": birth_date,
-            "adopted": adopted.lower() == 'true'
+            "age": age,
+            "email": email,
+            "phone":phone
         }
 
         # Insert into database
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute("INSERT INTO dogs (data) VALUES (%s) RETURNING id;", (json.dumps(json_data),))
-        dog_id = cur.fetchone()[0]
+        cur.execute("INSERT INTO users (data) VALUES (%s) RETURNING id;", (json.dumps(json_data),))
+        user_id = cur.fetchone()[0]
         conn.commit()
         cur.close()
         conn.close()
 
-        return f"Resource created with ID: {dog_id}"
+        return f"Resource created with ID: {user_id}"
     except Exception as e:
         return f"Error creating resource: {str(e)}"
 
-def get_dog_by_id_service(dog_id):
+def get_user_by_id_service(user_id):
     """Fetches a dog resource by its ID."""
     try:
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute("SELECT data FROM dogs WHERE id = %s;", (dog_id,))
-        dog = cur.fetchone()
+        cur.execute("SELECT data FROM users WHERE id = %s;", (user_id,))
+        user = cur.fetchone()
         cur.close()
         conn.close()
 
-        if dog:
-            return json.dumps(dog[0])
+        if user:
+            return json.dumps(user[0])
         else:
-            return f"Resource with ID {dog_id} not found."
+            return f"Resource with ID {user_id} not found."
     except Exception as e:
         return f"Error fetching resource: {str(e)}"
