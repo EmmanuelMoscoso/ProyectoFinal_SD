@@ -1,8 +1,8 @@
 import json
 from infrastructure.postgres import get_connection
 
+# Method to create a user
 def create_user_service(name, age, email, phone):
-    """Handles the creation of a user resource."""
     try:
         # Validate required fields
         required_fields = [name, age, email, phone]
@@ -30,8 +30,8 @@ def create_user_service(name, age, email, phone):
     except Exception as e:
         return f"Error creating resource: {str(e)}"
 
+# Method to get a user by its ID
 def get_user_by_id_service(user_id):
-    """Fetches a dog resource by its ID."""
     try:
         conn = get_connection()
         cur = conn.cursor()
