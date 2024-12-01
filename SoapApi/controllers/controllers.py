@@ -5,8 +5,8 @@ class ResourceService(ServiceBase):
 
     @rpc(String, String, String, String, _returns=String)
     def create_user(ctx, name, age, email, phone):
-        #SOAP endpoint to create a user resource.
-        #Test the endpoint
+        # SOAP endpoint to create a user resource.
+        # Example to test the endpoint
         """
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.api">
         <soapenv:Header/>
@@ -15,7 +15,7 @@ class ResourceService(ServiceBase):
                 <soap:name>Max</soap:name>
                 <soap:age>32</soap:age>
                 <soap:email>max@gmail.com</soap:email>
-                <soap:number>4420123456</soap:number>
+                <soap:phone>4420123456</soap:phone>
             </soap:create_user>
         </soapenv:Body>
         </soapenv:Envelope>
@@ -24,8 +24,8 @@ class ResourceService(ServiceBase):
 
     @rpc(Integer, _returns=String)
     def get_user_by_id(ctx, user_id):
-        #SOAP endpoint to fetch a user resource by ID.
-        # Test the endpoint
+        # SOAP endpoint to get a user by ID.
+        # Example to test the endpoint
         """
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="soap.api">
         <soapenv:Header/>

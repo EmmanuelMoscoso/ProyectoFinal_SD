@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "El API permite gestionar y consultar un catálogo de perros disponibles para adopción. Facilita el acceso a información detallada de cada perro, como su nombre, raza, edad, tamaño y características especiales. Además, ofrece funcionalidades para registrar nuevos perros, actualizar su información y eliminar registros cuando un perro ha sido adoptado.",
-    "version": "1.0.0",
+    "description": "El API permite gestionar y consultar un catálogo de perros disponibles para adopción. Facilita el acceso a información detallada de cada perro, como su nombre, raza, edad, tamaño y características especiales. Además, ofrece funcionalidades para registrar nuevos perros, actualizar su información y eliminar registros cuando un perro ha sido adoptado. Además, ahora permite la creación de usuarios con ID único que buscan adoptar algún perro, ingresando su nombre, edad, correo electrónico y teléfono. Se pueden buscar usuarios por su ID.",
+    "version": "2.0.0",
     "title": "Huellitas en busca de un hogar"
   },
   "schemes": [
@@ -298,7 +298,7 @@
     },
     "/users": {
       "post": {
-        "summary": "Create a new user",
+        "summary": "SOAP = Create a new user",
         "description": "Creates a user by calling the SOAP service.",
         "parameters": [
           {
@@ -332,7 +332,7 @@
     },
     "/users/{user_id}": {
       "get": {
-        "summary": "Get user by ID",
+        "summary": "SOAP = Get user by ID",
         "description": "Fetches a user's details by ID through the SOAP service.",
         "parameters": [
           {

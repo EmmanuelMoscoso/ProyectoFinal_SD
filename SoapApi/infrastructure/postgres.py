@@ -19,7 +19,7 @@ def initialize_database():
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("""
-        CREATE TABLE IF NOT EXISTS dogs (
+        CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             data JSONB NOT NULL
         );

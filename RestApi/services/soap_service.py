@@ -1,6 +1,6 @@
 from zeep import Client
 
-SOAP_URL = 'http://proyectofinal_sd-api-soap-1:8000/?wsdl'
+SOAP_URL = 'http://soap-api:8000/?wsdl'
 
 soap_client = Client(SOAP_URL)
 
