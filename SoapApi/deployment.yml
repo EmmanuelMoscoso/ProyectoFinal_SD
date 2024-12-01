@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soap-api
+  namespace: ema-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soap-api
+  template:
+    metadata:
+      labels:
+        app: soap-api
+    spec:
+      containers:
+      - name: soap-api
+        image: proyectofinal_sd-api-soap:latest
+        ports:
+        - containerPort: 8000
