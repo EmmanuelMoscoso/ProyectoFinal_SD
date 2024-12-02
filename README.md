@@ -110,7 +110,14 @@ La API estará disponible en http://localhost:5000/swagger
 
 ** SI deseas acceder al WSDL del API SOAP, estará disponible en http://localhost:8000/?wsdl
 
-### 5. USO
+## Cluster de Kubernetes
+
+Para desplegar el proyecto en un cluster con Kubernetes, sigue las siguientes instrucciones:
+
+
+
+
+## USO
 
 Para probar el API REST, basta con ingresar a la ruta del API y probar los endpoints:
 
@@ -156,9 +163,5 @@ Ingresa el siguiente texto:
     </soap:get_user_by_id>
 </soapenv:Body>
 </soapenv:Envelope>
-
-## Cluster de Kubernetes
-
-Para desplegar el proyecto en un cluster con Kubernetes, sigue las siguientes instrucciones:
 
 
