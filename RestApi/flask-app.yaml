@@ -1,0 +1,108 @@
+apiVersion: v1
+binaryData:
+  requirements.txt: Ly81aUFHd0FhUUJ1QUdzQVpRQnlBRDBBUFFBeEFDNEFPQUF1QURJQURRQUtBR01BYkFCcEFHTUFhd0E5QUQwQU9BQXVBREVBTGdBM0FBMEFDZ0JqQUc4QWJBQnZBSElBWVFCdEFHRUFQUUE5QURBQUxnQTBBQzRBTmdBTkFBb0FaQUJ1QUhNQWNBQjVBSFFBYUFCdkFHNEFQUUE5QURJQUxnQTNBQzRBTUFBTkFBb0FSZ0JzQUdFQWN3QnJBRDBBUFFBekFDNEFNQUF1QURNQURRQUtBRVlBYkFCaEFITUFhd0F0QUZBQWVRQk5BRzhBYmdCbkFHOEFQUUE5QURJQUxnQXpBQzRBTUFBTkFBb0FaZ0JzQUdFQWN3QnJBQzBBY2dCbEFHUUFhUUJ6QUQwQVBRQXdBQzRBTkFBdUFEQUFEUUFLQUdZQWJBQmhBSE1BYXdBdEFITUFkd0JoQUdjQVp3QmxBSElBTFFCMUFHa0FQUUE5QURRQUxnQXhBREVBTGdBeEFBMEFDZ0JwQUhRQWN3QmtBR0VBYmdCbkFHVUFjZ0J2QUhVQWN3QTlBRDBBTWdBdUFESUFMZ0F3QUEwQUNnQktBR2tBYmdCcUFHRUFNZ0E5QUQwQU13QXVBREVBTGdBMEFBMEFDZ0JOQUdFQWNnQnJBSFVBY0FCVEFHRUFaZ0JsQUQwQVBRQXpBQzRBTUFBdUFESUFEUUFLQUhBQWVRQnRBRzhBYmdCbkFHOEFQUUE5QURRQUxnQXhBREFBTGdBeEFBMEFDZ0J5QUdVQVpBQnBBSE1BUFFBOUFEVUFMZ0F4QUM0QU1RQU5BQW9BVndCbEFISUFhd0I2QUdVQWRRQm5BRDBBUFFBekFDNEFNQUF1QURRQURRQUtBSG9BWlFCbEFIQUE=
+data:
+  Dockerfile: |
+    # Python image
+    FROM python:3.9-slim
+
+    # Set working directory
+    WORKDIR /app
+
+    # Copy the current directory contents into the container at /app
+    COPY . /app
+
+    # Install any needed packages specified in requirements.txt
+    RUN pip install --no-cache-dir -r requirements.txt
+
+    # Make port 5000 available
+    EXPOSE 5000
+
+    # Define environment variable
+    ENV NAME World
+
+    # Run app.py
+    CMD ["python", "app.py"]
+  app.py: |
+    from flask import Flask
+    from infrastructure.mongo import mongo
+    from infrastructure.swagger import init_swagger
+    from config import Config, init_redis
+    from controllers.dog_controller import dog_api
+    from controllers.user_controller import user_api
+
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    #Mongo
+    mongo.init_app(app)
+
+    app.register_blueprint(dog_api, url_prefix="/dogs")
+    app.register_blueprint(user_api, url_prefix='/users')
+
+    # Initialize Swagger UI
+    init_swagger(app)
+
+    #Redis
+    init_redis(app)
+
+
+    if __name__ == "__main__":
+        app.run(host='0.0.0.0', port=5000, debug=True)
+  docker-compose.yml: |
+    version: '3'
+    services:
+      #mongo container
+      mongodb:
+        image: mongo:latest
+        container_name: dogs_db
+        ports:
+          - "27017:27017"
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: root1234
+        volumes:
+          - dogs_data:/data/db
+        networks:
+          - my_network
+
+      #redis container
+      redis:
+        image: redis:alpine
+        container_name: redis
+        ports:
+          - "6379:6379"
+        networks:
+          - my_network
+
+      #rest-flask-api container
+      deploy:
+        build: .
+        image: emmanuel/dog_api_1.0.0
+        container_name: flask_app
+        ports:
+          - "5000:5000"
+        volumes:
+          - .:/app
+        depends_on:
+          - mongodb
+          - redis
+        environment:
+          - FLASK_ENV=development
+          - REDIS_URL=redis://redis:6379/0
+        networks:
+          - my_network
+
+    #volume for data persistence
+    volumes:
+      dogs_data:
+
+    #network for container communication
+    networks:
+      my_network:
+        driver: bridge
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: deploy
+  name: flask-app

@@ -1,5 +1,0 @@
-psycopg2-binary==2.9.10
-pytz==2024.2
-spyne==2.14.0
-lxml
-zeep
