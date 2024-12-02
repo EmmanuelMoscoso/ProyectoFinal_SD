@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: C:\Users\diego\AppData\Local\Microsoft\WinGet\Packages\Kubernetes.kompose_Microsoft.Winget.Source_8wekyb3d8bbwe\kompose.exe convert
-    kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: redis
   name: redis
@@ -14,9 +11,6 @@ spec:
       io.kompose.service: redis
   template:
     metadata:
-      annotations:
-        kompose.cmd: C:\Users\diego\AppData\Local\Microsoft\WinGet\Packages\Kubernetes.kompose_Microsoft.Winget.Source_8wekyb3d8bbwe\kompose.exe convert
-        kompose.version: 1.34.0 (cbf2835db)
       labels:
         io.kompose.service: redis
     spec:
@@ -31,9 +25,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: C:\Users\diego\AppData\Local\Microsoft\WinGet\Packages\Kubernetes.kompose_Microsoft.Winget.Source_8wekyb3d8bbwe\kompose.exe convert
-    kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: redis
   name: redis
