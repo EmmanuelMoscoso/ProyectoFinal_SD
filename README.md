@@ -23,6 +23,7 @@ Además, implementa un cluster de Kubernetes utilizando Minikube, dentro del clu
 - Python 3.x
 - Pip (instalador de paquetes de python)
 - Docker
+- Minikube (para Kubernetes)
 
 ## Estructura del proyecto
 
@@ -159,3 +160,5 @@ Ingresa el siguiente texto:
 ## Cluster de Kubernetes
 
 Para desplegar el proyecto en un cluster con Kubernetes, sigue las siguientes instrucciones:
+
+
