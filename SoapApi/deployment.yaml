@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: api-soap
+  name: api-soap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api-soap
+  template:
+    metadata:
+      labels:
+        io.kompose.service: api-soap
+    spec:
+      containers:
+        - name: api-soap
+          image: diegoferpo/soap-api:1
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_HOST
+              value: db
+            - name: DB_NAME
+              value: soap_api
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: api-soap-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-soap-secret
+                  key: DB_PASSWORD
+      restartPolicy: Always
