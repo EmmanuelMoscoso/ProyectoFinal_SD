@@ -116,28 +116,28 @@ La API estará disponible en http://localhost:5000/swagger
 
 Para desplegar el proyecto en un cluster con Kubernetes, sigue las siguientes instrucciones:
 
-Paso 1: Crear el Clúster de Kubernetes.
-# Iniciar un clúster de Minikube
+### Paso 1: Crear el Clúster de Kubernetes.
+### Iniciar un clúster de Minikube
 
 ```bash
 minikube start
 ```
 
-# Crear Namespaces
+### Crear Namespaces
 
 ```bash
 kubectl create ns ema-api
 kubectl create ns dfpb-databases
 ```
 
-# Habilitar el Registry
+### Habilitar el Registry
 
 ```bash
 minikube addons enable registry
 ```
 
-Paso 3: Aplicar los archivos YAML
-# Aplicar los archivos de configuración para la RestApi
+### Paso 3: Aplicar los archivos YAML
+### Aplicar los archivos de configuración para la RestApi
 
 ```bash
 cd RestApi
@@ -151,7 +151,7 @@ kubectl apply -f redis.yaml --namespace dfpb-databases
 kubectl apply -f mongodb.yaml --namespace dfpb-databases
 ```
 
-# Aplicar los archivos de configuración para la SoapApi
+### Aplicar los archivos de configuración para la SoapApi
 
 ```bash
 cd SoapApi
@@ -171,16 +171,25 @@ kubectl apply -f postgres-data.yaml --namespace dfpb-databases
 Para probar el API REST, basta con ingresar a la ruta del API y probar los endpoints:
 
 - GET /dogs = Obtener todos los perros
-![Alt text](screenshots/REST_get-dogs)
+![Alt text](screenshots/REST_get-all-dogs.png)
 - GET /dogs/{id} = Obtener perro por ID
+![Alt text](screenshots/REST_get-id-dogs.png)
 - GET /dogs/search = Obtener perros por filtros
+![Alt text](screenshots/REST_get-input-dogs.png)
 - POST /dogs = Crear un nuevo perro
+![Alt text](screenshots/REST_post-dog.png)
 - PUT /dogs/{id} = Actualizar información completa de un perro
+![Alt text](screenshots/REST_put-dog.png)
 - PATCH  /dogs/{id} = Actualizar campos específicos por ID
+![Alt text](screenshots/REST_patch-dog.png)
 - PATCH /dogs/{id}/adopted = Cambiar estado de un perro a adoptado
+![Alt text](screenshots/REST_patch-adopted-dog.png)
 - DELETE /dogs/{id} = Borrar un perro por ID
+![Alt text](screenshots/REST_delete-dog.png)
 - POST /users = (SOAP) Crear un nuevo usuario con el servicio del API SOAP
+![Alt text](screenshots/SOAP_post-user.png)
 - GET /users/{id} = Obtener un usuario por su ID con el servicio del API SOAP
+![Alt text](screenshots/SOAP_get-id-user.png)
 
 Para probar de manera individual el API SOAP, sin utilizar el API REST, se necesitaran herramientas como CURL o POSTMAN.
 
