@@ -114,7 +114,54 @@ La API estará disponible en http://localhost:5000/swagger
 
 Para desplegar el proyecto en un cluster con Kubernetes, sigue las siguientes instrucciones:
 
+Paso 1: Crear el Clúster de Kubernetes.
+# Iniciar un clúster de Minikube
 
+```bash
+minikube start
+```
+
+# Crear Namespaces
+
+```bash
+kubectl create ns ema-api
+kubectl create ns dfpb-databases
+```
+
+# Habilitar el Registry
+
+```bash
+minikube addons enable registry
+```
+
+Paso 3: Aplicar los archivos YAML
+# Aplicar los archivos de configuración para la RestApi
+
+```bash
+cd RestApi
+
+kubectl apply -f deployment.yaml --namespace ema-api
+kubectl apply -f service.yaml --namespace ema-api
+kubectl apply -f secrets.yaml --namespace ema-api
+
+kubectl apply -f dogs-data.yaml --namespace dfpb-databases
+kubectl apply -f redis.yaml --namespace dfpb-databases
+kubectl apply -f mongodb.yaml --namespace dfpb-databases
+```
+
+# Aplicar los archivos de configuración para la SoapApi
+
+```bash
+cd SoapApi
+
+kubectl apply -f deployment.yaml --namespace ema-api
+kubectl apply -f service.yaml --namespace ema-api
+kubectl apply -f secrets.yaml --namespace ema-api
+
+kubectl apply -f db-deployment.yaml --namespace dfpb-databases
+kubectl apply -f db-service.yaml --namespace dfpb-databases
+kubectl apply -f postgres-data.yaml --namespace dfpb-databases
+```
 
 
 ## USO
