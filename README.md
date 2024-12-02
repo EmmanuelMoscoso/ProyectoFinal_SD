@@ -171,6 +171,7 @@ kubectl apply -f postgres-data.yaml --namespace dfpb-databases
 Para probar el API REST, basta con ingresar a la ruta del API y probar los endpoints:
 
 - GET /dogs = Obtener todos los perros
+![Alt text](screenshots/REST_get-dogs)
 - GET /dogs/{id} = Obtener perro por ID
 - GET /dogs/search = Obtener perros por filtros
 - POST /dogs = Crear un nuevo perro
